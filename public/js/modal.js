@@ -1,0 +1,10 @@
+$(document).ready(function(){
+	$('#registerBtnModal').click(function(){
+		$('#modalLogin').modal('hide');
+		$('#modalRegister').modal('show');
+	});
+	$('#loginBtnModal').click(function(){
+		$('#modalRegister').modal('hide');
+		$('#modalLogin').modal('show');
+	});
+});
