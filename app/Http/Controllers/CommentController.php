@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use App\Comment;
 use App\Post;
 use App\User;
@@ -38,7 +39,7 @@ class CommentController extends Controller
 
         $comment = new Comment();
 
-        $comment->content = $request->content;
+        $comment->content = Purifier::clean($request->content);
         $comment->parent = $request->parent;
         $comment->post()->associate($post);
         $comment->user_id = $request->user_id;
@@ -58,8 +59,10 @@ class CommentController extends Controller
     public function edit($id)
     {
         $comment = Comment::find($id);
+        $rands = Post::inRandomOrder()->limit(3)->get();
+        $views = Post::orderBy('views', 'desc')->limit(3)->get();
 
-        return view('comments.edit')->withComment($comment);
+        return view('comments.edit')->withComment($comment)->withRands($rands)->withViews($views);
     }
 
     /**
@@ -75,7 +78,7 @@ class CommentController extends Controller
 
         $this->validate($request, array('content' => 'required|min:5|max:2000'));
 
-        $comment->content = $request->content;
+        $comment->content = Purifier::clean($request->content);
         $comment->save();
 
         Session::flash('succes', 'The comment was edited!');
@@ -92,6 +95,9 @@ class CommentController extends Controller
     public function destroy($id)
     {
         $comment = Comment::find($id);
+        $comment->post()->dissociate();
+        // $comment->save();
+        
         $comment->delete();
 
         Session::flash('succes', 'The comment was deleted!');

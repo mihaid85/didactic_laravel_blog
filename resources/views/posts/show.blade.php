@@ -36,10 +36,10 @@
 				</div>
 				<div class='post_content'>
 					<div>
-						<img alt="Smooth Sweet Tea with Cookies" src="\{{ $post->image->directory }}" title="Smooth Sweet Tea with Cookies"  height="400" width="640">
+						<img alt="{{ $post->title }} -> picture not found" src="\img\{{ $post->picture->directory }}" title="Smooth Sweet Tea with Cookies">
 					</div>
 					<p>
-						{{ $post->post_content }}
+						{!! $post->post_content !!}
 					</p>
 				</div>
 			</div>

@@ -24,10 +24,7 @@
 									<span class='glyphicon glyphicon-time'></span>
 									<abbr class='published updated'>{{ $comment->created_at }}</abbr>
 								</small>
-								<div class="pull-right top">
-									<a href="{{ route('comments.edit', $comment->id) }}" class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-pencil"></span></a>
-									<a href="#" class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-trash"></span></a>
-								</div>
+								
 							</h4>
 						</div>
 							<div class='comment_text'>

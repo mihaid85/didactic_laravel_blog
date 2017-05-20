@@ -37,7 +37,14 @@
 		
 		<ul class="blog_posts nav-list">
 
-			'posts_rand.php';
+			@foreach($rands as $rand)
+				<li class="small_post">
+					<a href="#">
+						<img class="pic" src="\img\{{ $rand->picture->directory }}" alt="Smooth Sweet Tea with Cookies">
+					</a>
+					<a class="thumb_title" href="#" title="Smooth Sweet Tea with Cookies">{{ $rand->title }}</a>
+				</li>
+			@endforeach
 
 		</ul>
 	</div>
@@ -70,7 +77,14 @@
 		
 		<ul class="blog_posts nav-list">
 			
-				 'posts_top.php';
+			@foreach($views as $view)
+				<li class="small_post">
+					<a href="#">
+						<img class="pic" src="\img\{{ $view->picture->directory }}" alt="Smooth Sweet Tea with Cookies">
+					</a>
+					<a class="thumb_title" href="#" title="Smooth Sweet Tea with Cookies">{{ $view->title }}</a>
+				</li>
+			@endforeach
 		
 		</ul>
 	</div>

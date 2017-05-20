@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use App\Tag;
 use App\Post;
 use Session;
@@ -39,7 +40,7 @@ class TagController extends Controller
         //store in the database
             $tag = new Tag;
 
-            $tag->name = $request->name;
+            $tag->name = Purifier::clean($request->name);
             $tag->save();
 
             Session::flash('succes', 'The tag was created!');
@@ -87,7 +88,7 @@ class TagController extends Controller
 
         $this -> validate($request, array('name' => 'required|max:30'));
 
-        $tag ->name = $request->name;
+        $tag->name = Purifier::clean($request->name);
         $tag->save();
 
         Session::flash('succes', 'The tag was modified!');

@@ -5,12 +5,20 @@
 @section('stylesheets')
 	{!! Html::style('css/parsley.css') !!}
 	{!! Html::style('css/select2.min.css') !!}
-@endsection
 
+	<script src="https://cloud.tinymce.com/stable/tinymce.min.js?apiKey=wn7in04nlpiqw1f1rxyu71bh9d526fvry9r7akeoj6pum8r3"></script>
+  	<script>
+  		tinymce.init({ 
+  			selector: 'textarea',
+  			plugins: 'link code lists',
+  			menubar: 'false'
+  		});
+  	</script>
+@endsection
 
 @section('content')
 	<div class="row">
-		{!! Form::model($post, ['route' => ['posts.update', $post->id], 'method'=> 'PUT', 'data-parsley-validate' => '']) !!}
+		{!! Form::model($post, ['route' => ['posts.update', $post->id], 'method'=> 'PUT', 'data-parsley-validate' => '', 'files' => true]) !!}
 			{{ csrf_field() }}
 			<div class="col-xs-12 col-md-8 col-lg-8">
 				<div class="post_entry">
@@ -23,9 +31,11 @@
 	    			{{ Form::label('tags', 'Tags:', array('class'=>'form-spacing')) }}
 	    			{{ Form::select('tags[]', $tags, null, array('class' => 'form-control select2-multi', 'multiple' => 'multiple')) }}
 		    		
+		    		{{ Form::label('imageUpload', 'Upload Image:', array('class'=>'form-spacing')) }}
+	    			{{ Form::file('imageUpload') }}
 
 					{{ Form::label('post_content', 'Content:', array('class'=>'form-spacing')) }}
-					{{ Form::textarea('post_content', null, array('class'=>'form-control full', 'required' => '')) }}
+					{{ Form::textarea('post_content', null, array('class'=>'form-control full')) }}
 				</div>
 			</div>
 			<div class="col-xs-12 col-md-4">
@@ -48,6 +58,9 @@
 						</div>
 					</div>
 				</div>
+				<div class="col-md-2 imagePreview">
+					<img id="preview" src="/img/noimage.png" />
+				</div>
 			</div>
 		{!! Form::close() !!}
 	</div>
@@ -59,5 +72,33 @@
 	<script type="text/javascript">
 		$('.select2-multi').select2();
 		$('.select2-multi').select2().val({{ json_encode($post->tags()->allRelatedIds()) }} ).trigger('change');
+	</script>
+
+	<script type="text/javascript">
+
+    function readURL(input) {
+
+        if (input.files && input.files[0]) {
+
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+
+                $('#preview').attr('src', e.target.result);
+
+            }
+
+            reader.readAsDataURL(input.files[0]);
+
+        }
+
+    }
+
+    $("#imageUpload").change(function(){
+
+        readURL(this);
+
+    });
+
 	</script>
 @endsection

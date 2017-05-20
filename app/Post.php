@@ -15,9 +15,9 @@ class Post extends Model
     	return $this->belongsToMany('App\Tag', 'post_tag', 'post_id', 'tag_id');
     }
 
-    public function image()
+    public function picture()
     {
-    	return $this->hasOne('App\Image');
+    	return $this->hasOne('App\Picture');
     }
 
     public function comments()

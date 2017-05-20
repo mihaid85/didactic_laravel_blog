@@ -723,3 +723,10 @@ img.comment_pic{
 textarea.full{
 	height: 100%;
 }
+.imagePreview{
+	padding: 75px;
+}
+#preview{
+	height: 150px;
+	width: 200px;
+}

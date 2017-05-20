@@ -9,8 +9,11 @@ use App\Http\Controllers\Controller;
 use Illuminate\Contracts\Auth\Authenticatable;
 use App\Post;
 use App\Tag;
-use App\Image;
+use App\Picture;
 use Session;
+use Image;
+use Purifier;
+use Storage;
 
 class PostController extends Controller
 {
@@ -56,7 +59,8 @@ class PostController extends Controller
             'title' => 'required|max:200',
             'slug' => 'required|alpha_dash|min:5|max:200|unique:posts,slug',
             'post_content' => 'required',
-            'user_id' => 'required|integer'
+            'user_id' => 'required|integer',
+            'imageUpload' => 'sometimes|image'
 
         ));
 
@@ -65,10 +69,23 @@ class PostController extends Controller
 
             $post->title = $request->title;
             $post->slug = $request->slug;
-            $post->post_content = $request->post_content;
+            $post->post_content = Purifier::clean($request->post_content);
             $post->user_id = $request->user_id;
+            if ($request->hasFile('imageUpload')) {
+                $image = $request->file('imageUpload');
+                $filename = time() . '.' . $image->getClientOriginalExtension();
+                $location = public_path('img/' . $filename);
+                Image::make($image)->resize(400, 300)->save($location);
+                
+                $post->save();
 
-            $post->save();
+                $picture = new Picture;
+                $picture->directory = $filename;
+            
+                $post->picture()->save($picture);
+            }else{
+                $post->save();
+            }
 
             $post->tags()->sync($request->tags, false);
 
@@ -88,6 +105,8 @@ class PostController extends Controller
     {
         $post = Post::find($id);
         
+        $post->increment('views');
+
         return view('posts.show')->withPost($post);
     }
 
@@ -118,26 +137,43 @@ class PostController extends Controller
     public function update(Request $request, $id)
     {
         $post = Post::find($id);
-        if ($request->slug == $post->slug) {
-            $this->validate($request, array(
-            'title' => 'required|max:100',
-            'post_content' => 'required'
-        ));
-        }else {
+        
             $this->validate($request, array(
                 'title' => 'required|max:100',
-                'slug' => 'required|alpha_dash|min:5|max:200|unique:posts,slug',
-                'post_content' => 'required'
+                'slug' => "required|alpha_dash|min:5|max:200|unique:posts,slug,$id",
+                'post_content' => 'required',
+                'imageUpload' => 'sometimes|image'
             ));
-        }
+        
 
         $post = Post::find($id);
 
         $post->title = $request->title;
         $post->slug = $request->slug;
-        $post->post_content = $request->post_content;
+        $post->post_content = Purifier::clean($request->post_content);
 
-        $post->save();
+        if ($request->hasFile('imageUpload')) {
+                //add new photo
+                $image = $request->file('imageUpload');
+                $filename = time() . '.' . $image->getClientOriginalExtension();
+                $location = public_path('img/' . $filename);
+                Image::make($image)->resize(400, 300)->save($location);
+                
+                $post->save();
+                $picture = Picture::find($post->picture->id);
+
+                $oldFilename = $picture->directory;
+
+                //update database
+                $picture->directory = $filename;
+                
+                //delete old photo
+                Storage::delete($oldFilename);
+
+                $post->picture()->save($picture);
+            }else{
+                $post->save();
+            }
 
         $post->tags()->sync($request->tags);
 
@@ -156,6 +192,12 @@ class PostController extends Controller
     {
         $post = Post::find($id);
         $post->tags()->detach();
+
+        $picture = $post->picture->directory;
+        Storage::delete($picture);
+
+        $post->picture()->delete();
+        $post->comments()->delete();
 
         $post->delete();
 

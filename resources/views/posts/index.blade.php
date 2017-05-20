@@ -29,7 +29,7 @@
 						<tr>
 							<td>{{ $post->id }}</td>
 							<td>{{ $post->title }}</td>
-							<td>{{ substr($post->post_content, 0, 50) }}{{ strlen($post->post_content) > 100 ? "..." : "" }}</td>
+							<td>{{ substr(strip_tags($post->post_content), 0, 100) }}{{ strlen(strip_tags($post->post_content)) > 50 ? "..." : "" }}</td>
 							<td>{{ date('d/m/y', strtotime($post->created_at)) }}</td>
 							<td>{{ date('d/m/y', strtotime($post->updated_at)) }}</td>
 							<td>
