@@ -6,5 +6,7 @@
 /.idea
 Homestead.json
 Homestead.yaml
+.env.*.php
+.env.php
 .env
 thumbs.db
