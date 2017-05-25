@@ -34,7 +34,7 @@ fdgdfsgsdf
 				<div class="post_content">{{ substr(strip_tags($post->post_content), 0, 100) }}{{ strlen(strip_tags($post->post_content)) > 50 ? "..." : "" }}</div>
 			</div>
 		</div>
-	@endforeachfdsgfdgfdfsdgdfgdfg
+	@endforeach
 	<div class="text-left ">
 		{{ $posts->links() }}
 	</div>
