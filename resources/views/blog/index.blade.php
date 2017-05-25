@@ -35,8 +35,6 @@
 			</div>
 		</div>
 	@endforeach
-
-	
 	<div class="text-left ">
 		{{ $posts->links() }}
 	</div>
