@@ -5,7 +5,7 @@
 @section('content')
 	<div class="row">
 		<div id="post_wrapper" class="wrapper col-xs-12 col-md-8 col-lg-8">
-			<div class="post_entry">dsgdfdsvfds
+			<div class="post_entry">dsgdfdsvfdsfgbgfdg
 				<h1 class='post_title'>{{ $post->title }}</h1>
 				<div class='post_header'>
 					<div class='post_info_page'>
