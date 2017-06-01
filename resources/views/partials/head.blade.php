@@ -12,6 +12,8 @@
 {!! Html::style('css/bootstrap.min.css') !!}
 {!! Html::style('css/style.css') !!}
 {!! Html::style('font-awesome/css/font-awesome.min.css') !!}
+{!! Html::style('css/parsley.css') !!}
+{!! Html::style('css/select2.min.css') !!}
 
 @yield('stylesheets')
 <!-- Scripts -->

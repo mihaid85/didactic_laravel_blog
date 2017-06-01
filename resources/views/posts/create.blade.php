@@ -3,8 +3,6 @@
 @section('title', '| Create new post')
 
 @section('stylesheets')
-	{!! Html::style('css/parsley.css') !!}
-	{!! Html::style('css/select2.min.css') !!}
 
 	<script src="https://cloud.tinymce.com/stable/tinymce.min.js?apiKey=wn7in04nlpiqw1f1rxyu71bh9d526fvry9r7akeoj6pum8r3"></script>
   	<script>
