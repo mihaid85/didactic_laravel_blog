@@ -15,12 +15,7 @@
 				<li>
 					<a class="top-menu" href="/">HOME</a>
 				</li>
-				<li>
-					<a class="top-menu" href="#">TOP ARTICLES</a>
-				</li>
-				<li>
-					<a class="top-menu" href="#">CONTACT</a>
-				</li>
+				
 				<li class="search">
 					<form class="navbar-form" role="search">
 				        <div class="input-group pull-right ">

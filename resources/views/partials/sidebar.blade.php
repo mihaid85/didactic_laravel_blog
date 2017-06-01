@@ -49,17 +49,7 @@
 		</ul>
 	</div>
 
-	<h2 class="hatch"><span>Kategori</span></h2>
-	<div class="dropdown dropdown2">
-		
-
-		{!! Form::open(['route' => 'posts.store', 'data-parsley-validate' => '']) !!}
-
-			{{ Form::label('tags', 'Tags:', array('class'=>'form-spacing')) }}
-	    		{{ Form::select('tags[]', $tags, null, array('class' => 'form-control select2-multi', 'multiple' => 'multiple')) }}
-
-		{!! Form::close() !!}
-	</div>
+	
 
 	<h2 class="hatch"><span>Top 5</span></h2>
 	<div class="thumb_wrapper">
@@ -79,3 +69,10 @@
 	</div>
 </div>
 
+@section('scripts')
+
+{!! Html::script('js/parsley.min.js') !!}
+{!! Html::script('js/select2.min.js') !!}
+
+
+@endsection

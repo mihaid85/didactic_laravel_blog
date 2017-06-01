@@ -39,7 +39,7 @@ class CommentController extends Controller
 
         $comment = new Comment();
 
-        $comment->content = Purifier::clean($request->content);
+        $comment->content = $request->content;
         $comment->parent = $request->parent;
         $comment->post()->associate($post);
         $comment->user_id = $request->user_id;
@@ -78,7 +78,7 @@ class CommentController extends Controller
 
         $this->validate($request, array('content' => 'required|min:5|max:2000'));
 
-        $comment->content = Purifier::clean($request->content);
+        $comment->content = $request->content;
         $comment->save();
 
         Session::flash('succes', 'The comment was edited!');
